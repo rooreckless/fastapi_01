@@ -38,3 +38,38 @@ async def read_books(category: Optional[str]= None) -> list[dict[str, str]]:
 
     return [{"id" :book.id, "title": book.title, "category": book.category}
             for book in result]
+
+
+
+# #-----
+# # レスポンス処理についての前置き4章
+# from datetime import datetime
+# from pydantic import BaseModel, ValidationError
+# # イベントを表すクラス
+# class Event(BaseModel):
+#     # イベント名、デフォルトは未定
+#     name: str = "未定"
+#     # 開催日時
+#     start_datetime: datetime
+#     # 参加者リスト、デフォルトはリスト
+#     participants: list[str] = []
+# # ダミーデータ辞書(外部からのイベントデータのつもり)
+# external_data = {
+#     "name": "FastAPI勉強会",
+#     # "start_datetime": "2023-07-07 07:00",
+#     # バリデーションエラーを意図的に起こしたいなら、以下のstart_datetimeの値を使う(strを渡してしまう)
+#     "start_datetime": "abc",
+#     "participants": ["山田", "鈴木","田中"]
+# }
+
+
+# #-----Eventクラス部分の実行が以下-----
+# print("-----Eventクラス部分の実行-----")
+# # 辞書をEventにつめてアンパックしてみる
+# try:
+#     event = Event(**external_data)
+#     print("イベント名;", event.name, type(event.name)) # <- イベント名; FastAPI勉強会 <class 'str'>
+#     print("開催日時;", event.start_datetime, type(event.start_datetime)) # <- 開催日時; 2023-07-07 07:00:00 <class 'datetime.datetime'>
+#     print("参加者リスト;", event.participants, type(event.participants)) # <- 参加者リスト; ['山田', '鈴木', '田中'] <class 'list'>
+# except ValidationError as e:
+#     print("データのバリデーションエラーが発生しました。",e.errors()) # <- start_datetie = "abc"の時 : データのバリデーションエラーが発生しました。 [{'type': 'datetime_from_date_parsing', 'loc': ('start_datetime',), 'msg': 'Input should be a valid datetime or date, input is too short', 'input': 'abc', 'ctx': {'error': 'input is too short'}, 'url': 'https://errors.pydantic.dev/2.11/v/datetime_from_date_parsing'}]

@@ -41,6 +41,12 @@ def process_value(value: Annotated[int, "範囲: 0 <= value <= 100"])-> None:
         # 値が範囲外にだった場合
         raise ValueError(f"値は範囲外です: {value}")
 
+
+
+
+
+
+
 if __name__ == "__main__":
     print(add(1,2))
 
@@ -52,3 +58,4 @@ if __name__ == "__main__":
 
     process_value(50)
     # process_value(110) <=ちゃんとエラー
+
