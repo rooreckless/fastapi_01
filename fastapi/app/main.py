@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from typing import Optional
 from .data import get_user,User # data.pyから関数とUserクラスをインポート
+from .data import get_books_by_category, Book # data.pyから関数とBookクラスをインポート
 app = FastAPI()
 
 @app.get("/")
@@ -25,3 +26,15 @@ async def read_user(user_id: int) -> dict:
         raise HTTPException(status_code=404, detail="User not found")
     # ユーザーが見つかった場合はユーザーの内容を辞書にして返す
     return {"user_id": user.id, "username": user.name}
+
+
+#--クエリパラメータによるget--
+@app.get("/books/")
+async def read_books(category: Optional[str]= None) -> list[dict[str, str]]:
+    #↑返り値はリスト型であり、個々の要素は辞書型で、キーが文字列(str)、値も文字列(str)であることを示す
+    # ↓例えばここで、DBからcategoryに対応する書籍情報を取得する処理をする
+    # ここではダミーデータを使っている
+    result = get_books_by_category(category)
+
+    return [{"id" :book.id, "title": book.title, "category": book.category}
+            for book in result]

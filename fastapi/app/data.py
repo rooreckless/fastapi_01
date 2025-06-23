@@ -24,3 +24,35 @@ def get_user(user_id: int) -> Optional[User]:
             return user
         # 指定されたIDを持つユーザーがいない場合Noneを返す
         return None
+    
+#----
+# 書籍情報を表すクラス
+class Book:
+    def __init__(self, id: str, title:str, category:str):
+        # 書籍ID, タイトル,カテゴリを引数からクラス変数に代入
+        self.id = id
+        self.title = title
+        self.category = category
+
+# ダミーの書籍データリスト
+# category "techinal: 技術書, comics: コミック, magazine: 雑誌"
+books = [
+    Book(id="1",title="Python入門",category="technical"),
+    Book(id="2",title="はじめてのプログラミング",category="technical"),
+    Book(id="3",title="すすむ巨人",category="comics"),
+    Book(id="4",title="DBおやじ",category="comics"),
+    Book(id="5",title="週間ダイヤモンド",category="magazine"),
+    Book(id="6",title="ザ・社長",category="magazine"),
+]
+# カテゴリに基づいて書籍を検索する関数
+# もしcateogoryがNoneなら、すべての書籍を返す
+def get_books_by_category(category: Optional[str] = None)-> list[Book]:
+    if category is None:
+        # カテゴリが指定されていない場合はすべての書籍を返す
+        return books
+    else:
+        # 指定されたカテゴリに一致する書籍だけを返す
+        # ↓リスト内包表記を使っている
+        # booksのリスト内の個々の要素をbookとして回しながら、book.categoryが引数と一致したら、そのbookをリストに詰めて返す
+        return [book for book in books if book.category == category]
+    
